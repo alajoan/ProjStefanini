@@ -22,7 +22,7 @@ final class SummaryCollectionViewCell: UICollectionViewCell {
     private lazy var imageView: UIImageView = {
         var image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleAspectFill
         image.isOpaque = true
 
         return image
