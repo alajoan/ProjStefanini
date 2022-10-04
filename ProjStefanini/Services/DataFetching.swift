@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import AlamofireImage
 
 class DataFetching {
     
@@ -32,17 +33,17 @@ class DataFetching {
             case .success:
                 do {
                     galleries.removeAll()
-                    let gallery = try JSONDecoder().decode(GalleryRoot.self, from: response.data!)
-                    galleries.append(contentsOf: gallery.data ?? [GalleryData()])
+                    guard
+                        let response = response.data
+                    else { return }
+                    let gallery = try JSONDecoder().decode(Gallery.self, from: response)
+                    galleries.append(contentsOf: gallery.data)
                     galleries.forEach { image in
-                        if image.images?[0].link != nil {
+                        if image.images?[0].link != "" {
                             galleryFiltered.append(image)
                         }
                     }
-                    
-                    print("Recebendo os dados: \(galleries)")
                     completionHandler(galleryFiltered)
-                    
                     LoadingStatus.showUniversalLoadingView(false)
                     
                 } catch DecodingError.keyNotFound(let key, let context) {
@@ -67,21 +68,15 @@ class DataFetching {
     }
     
     static func fetchImage(URL: String, completionHandler: @escaping(UIImage) -> Void) {
-        
-        var tempImage: UIImage = UIImage()
-        let headers: HTTPHeaders = [
-            "Authorization": "Client-ID 1ceddedc03a5d71",
-        ]
-        _ = AF.request(URL, method: .get, headers: headers).response{ (response) in
+        AF.request(URL).responseImage { response in
             switch response.result {
-            case .success(let responseData):
-                tempImage = UIImage(data: responseData!, scale: 1) ?? tempImage
-                completionHandler(tempImage)
-                break
-            case .failure(let error):
-                print("Error: \(error)")
+            case .success(let image):
+                let size = CGSize(width: 70, height: 70)
+                let aspectScaledToFitImage = image.af.imageAspectScaled(toFit: size)
+                completionHandler(aspectScaledToFitImage)
+            case .failure(_):
+                completionHandler(UIImage(named: "UnavailableImage") ?? UIImage())
             }
         }
-        
     }
 }

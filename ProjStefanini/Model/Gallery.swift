@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct GalleryRoot: Codable {
-    var data: [GalleryData]?
+struct Gallerys: Codable {
+    var data: [GalleryDatas]?
 }
 
-struct GalleryData: Codable {
-    var images: [GalleryImages]?
+struct GalleryDatas: Codable {
+    var images: [GalleryImagess]?
     var title: String?
 }
 
-struct GalleryImages: Codable {
+struct GalleryImagess: Codable {
     var link: String?
 }

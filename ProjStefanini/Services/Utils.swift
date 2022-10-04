@@ -6,6 +6,11 @@
 //
 
 import Foundation
+extension Collection {
+    subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
 
 class Utils {
     static func cleanURL(URL: String) -> String {

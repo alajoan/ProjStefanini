@@ -6,7 +6,8 @@ target 'ProjStefanini' do
   use_frameworks!
 
   # Pods for ProjStefanini
-	pod 'Alamofire', '~> 5.4'
+	pod 'Alamofire'
+	pod 'AlamofireImage', '~> 4.1'
 
   target 'ProjStefaniniTests' do
     inherit! :search_paths

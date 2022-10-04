@@ -35,18 +35,12 @@ class MainViewController: UIViewController,UICollectionViewDelegate, UICollectio
     }
     
     @IBAction func searchPressed(_ sender: UIButton) {
-        print("Button working")
         searchTextfield.endEditing(true)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("Textfield working ")
         LoadingStatus.showUniversalLoadingView(true, loadingText: "Searching....")
-        DataFetching.fetchGallery(searchTextfield.text!, completionHandler: { (gallery) in
-            self.gallery = gallery
-            self.mainCollectionView.reloadData()
-        })
-        
+        //gallery = presenter.GetGallery
         
     }
     
@@ -56,12 +50,7 @@ class MainViewController: UIViewController,UICollectionViewDelegate, UICollectio
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if(textField.text != "") {
-            return true
-        } else {
-            textField.placeholder = "Enter something to search"
-            return false
-        }
+        return textField.text != "" ? true : false
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -73,7 +62,7 @@ class MainViewController: UIViewController,UICollectionViewDelegate, UICollectio
         
         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: "MainCollectionCell", for: indexPath) as! MainCollectionViewCell
         
-        cell.setCell(image: galleryImage.images?[0] ?? GalleryImages())
+        //cell.setCell(image: galleryImage.images?[0] ?? GalleryImages())
         cell.title = gallery[indexPath.item].title
         return cell
     }

@@ -18,8 +18,8 @@ class MainCollectionViewCell: UICollectionViewCell {
         self.image.image = UIImage()
     }
     
-    func setCell(image: GalleryImages) {
-        DataFetching.fetchImage(URL: image.link ?? "") { (galleryImage) in
+    func setCell(image: UIImage) {
+        DataFetching.fetchImage(URL: "") { (galleryImage) in
             self.image.image = galleryImage
         }
     }
